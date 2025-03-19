@@ -19,13 +19,20 @@ Organize your dataset as follows:
 
 /dataset/
     ├── offline_genuine/   # Genuine signatures
+    
     │   ├── genuine1.jpg
+    
     │   ├── genuine2.jpg
+   
     │   ├── ...
     │
+   
     ├── offline_forgery/   # Forged signatures
+   
     │   ├── forgery1.jpg
+   
     │   ├── forgery2.jpg
+    
     │   ├── ...
 
 # 🚀 Installation
