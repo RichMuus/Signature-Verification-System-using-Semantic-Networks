@@ -76,13 +76,15 @@ These help analyze overfitting and learning trends.
 After training, you can load the model and predict whether a given signature is genuine or forged.
 
 Example Prediction Script (predict.py)
-
+***
 
 import pickle
+
 import cv2
+
 import numpy as np
 
-# Load trained model
+
 with open("my_signature_model.pkl", "rb") as f:
     loaded_model = pickle.load(f)
 
@@ -97,13 +99,16 @@ prediction = loaded_model.predict(img)
 label = "Genuine" if prediction[0] > 0.5 else "Forgery"
 print(f"Prediction: {label}")
 Run Prediction
-bash
+***
 
 
 Run---
-python predict.py --image path_to_image.jpg
+
+***python3 predict.py --image path_to_image.jpg***
 
 
 # 📜 License
 This project is licensed under MIT License.
+
+***Developer -- Richard Musya Paul***
 
