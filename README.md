@@ -3,7 +3,8 @@ This project trains an LSTM-based deep learning model to classify handwritten si
 
 ## IMPORTANT -NOTICE
 I HAVE ALREADY TRAINED MY MODEL. TO USE THE ALREADY TRAINED MODEL:
-RUN python3 app.py
+
+RUN ***python3 app.py***
 
 🛠 Features
 ✅ Supports categorized datasets stored in separate folders (offline_genuine/ and offline_forgery/).
