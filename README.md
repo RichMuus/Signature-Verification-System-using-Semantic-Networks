@@ -1,4 +1,4 @@
-# Signature Verification Model
+# Signature Verification System
 This project trains an LSTM-based deep learning model to classify handwritten signatures as either genuine or forged. The model uses convolutional layers for feature extraction and LSTM layers to learn sequential patterns in signature strokes.
 
 🛠 Features
