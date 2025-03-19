@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Verification</title>
+    
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        #preview {
+            display: none;
+            max-width: 100%;
+            margin-top: 20px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .upload-label {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-label:hover {
+            background: #0056b3;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="mb-3">Signature Verification System</h2>
+        
+        <!-- File Upload -->
+        <label for="fileInput" class="upload-label" id="upload-label">Upload Next Signature for Verification</label>
+        <input type="file" id="fileInput" accept="image/*">
+        <button class="btn-custom mt-3" onclick="uploadImage()">Verify Signature</button>
+
+        <!-- Image Preview -->
+        <img id="preview" src="#" alt="Uploaded Signature">
+        
+        <!-- Result Display -->
+        <p id="result"></p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        &copy; 2025 Richard Musya. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (!file) return;
+
+            var allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Only JPG, JPEG, and PNG files are allowed.');
+                this.value = '';  // Clear invalid file
+                return;
+            }
+
+            // Hide result message when a new image is uploaded
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('result').innerText = '';
+
+            // Show uploaded image preview
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function uploadImage() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select an image file');
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+                url: '/verify',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    var result = document.getElementById('result');
+                    result.innerText = response.result;
+                    result.style.display = 'block';
+
+                    // Reset input field and message after 3 seconds
+                    setTimeout(() => {
+                        fileInput.value = ''; 
+                        document.getElementById('upload-label').innerText = "Upload Next Signature for Verification";
+                        document.getElementById('preview').style.display = 'none';
+                        result.style.display = 'none'; // Hide verification message
+                    }, 3000);
+                },
+                error: function() {
+                    alert('Error verifying signature');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
