@@ -18,6 +18,7 @@ Organize your dataset as follows:
 
 
 /dataset/
+    
     ├── offline_genuine/   # Genuine signatures
     
     │   ├── genuine1.jpg
